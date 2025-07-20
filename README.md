@@ -17,11 +17,9 @@ docker compose up -d
 
 ### Links
 
-- Links úteis do projeto
+[Collection Postman](https://www.postman.com/altimetry-specialist-72965033/workspace/crud-nestjs-api-rest/collection/31846039-bd639523-fdc0-4cce-895b-bcbbfe49543d?action=share&source=copy-link&creator=31846039)
 
-[Collecion Postman](https://www.postman.com/altimetry-specialist-72965033/workspace/crud-nestjs-api-rest/collection/31846039-bd639523-fdc0-4cce-895b-bcbbfe49543d?action=share&source=copy-link&creator=31846039)
-
-[Documentação das Rotas com Swagger *Necessário rodar projeto*](http://localhost:3000/api-docs)
+[Documentação das Rotas com Swagger (*Necessário rodar projeto*)](http://localhost:3000/api-docs)
 
 
 ### Comandos
