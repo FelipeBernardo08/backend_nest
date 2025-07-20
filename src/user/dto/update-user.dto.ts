@@ -4,8 +4,8 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
     @ApiProperty()
-    email?: string | undefined;
+    email?: string;
 
     @ApiProperty()
-    name?: string | undefined;
+    name?: string;
 }

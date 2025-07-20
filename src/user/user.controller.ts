@@ -1,10 +1,10 @@
-import { Controller, Post, UseGuards, Body, Request, Patch, UnauthorizedException, BadRequestException, Get } from '@nestjs/common';
+import { Controller, Post, UseGuards, Body, Request, Patch, UnauthorizedException, BadRequestException, Get, NotFoundException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { ApiTags, ApiOperation, ApiBody, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBody, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiTags('Users')
 @Controller('user')
@@ -13,7 +13,17 @@ export class UserController {
 
   @ApiOperation({ summary: 'Criar um usuário' })
   @ApiBody({ type: CreateUserDto })
-  @ApiResponse({ status: 20, description: 'Usuário criado com sucesso.', type: User })
+  @ApiResponse({
+    status: 200,
+    description: 'Usuário criado com sucesso.',
+    schema: {
+      example: {
+        email: "user@email.com",
+        id: 1,
+        name: "user"
+      }
+    }
+  })
   @ApiResponse({ status: 400, description: 'Payload incorreto.' })
   @ApiResponse({ status: 401, description: 'Usuário já cadastrado!' })
   @Post('create')
@@ -28,11 +38,19 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-
-
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Atualizar o registro do usuário autenticado' })
   @ApiBody({ type: UpdateUserDto })
-  @ApiResponse({ status: 200, description: 'Registro atualizado com sucesso!' })
+  @ApiResponse({
+    status: 200,
+    description: 'Usuário atualizado com sucesso.',
+    schema: {
+      example: {
+        success: true,
+        message: 'Registro atualizado com sucesso!'
+      }
+    }
+  })
   @ApiResponse({ status: 400, description: 'Erro ao atualizar registro, tente novamente mais tarde!' })
   @UseGuards(JwtAuthGuard)
   @Patch('update')
@@ -45,7 +63,25 @@ export class UserController {
     return { success: true, message: 'Registro atualizado com sucesso!' };
   }
 
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Lista usuário autenticado com vinculos de instrumentos' })
+  @ApiResponse({
+    status: 200,
+    description: 'Usuário encontrado.',
+    schema: {
+      example: {
+        id: 1,
+        name: 'user',
+        email: 'user@email.com',
+        instruments: [
+          {
+            id: 10,
+            title: 'Guitarra'
+          }
+        ]
+      }
+    }
+  })
   @UseGuards(JwtAuthGuard)
   @Get('my-instruments')
   async getUserComplete(@Request() req: any): Promise<User | null> {

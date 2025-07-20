@@ -8,7 +8,7 @@ export class UpdateInstrumentDto extends PartialType(CreateInstrumentDto) {
     id: number;
 
     @ApiProperty()
-    title: string | undefined;
+    title: string;
 
     @ApiProperty()
     user_id: number;
